@@ -62,10 +62,10 @@ function perform_backups()
 	SUFFIX=$1
 	FINAL_BACKUP_DIR=$BACKUP_DIR"`date +\%Y-\%m-\%d`$SUFFIX/"
  
-	logger "pg_backup: Making backup directory in $FINAL_BACKUP_DIR"
+	logger -s "pg_backup: [INFO] Making backup directory in $FINAL_BACKUP_DIR"
  
 	if ! mkdir -p $FINAL_BACKUP_DIR; then
-		echo "Cannot create backup directory in $FINAL_BACKUP_DIR. Go and fix it!" 1>&2
+		logger -s "pg_backup: [!!ERROR!!] Cannot create backup directory in $FINAL_BACKUP_DIR. Go and fix it!" 1>&2
 		exit 1;
 	fi;
  
@@ -93,7 +93,7 @@ function perform_backups()
 	        echo "Schema-only backup of $DATABASE"
  
 	        if ! pg_dump -Fp -s -h "$HOSTNAME" -U "$USERNAME" "$DATABASE" | gzip > $FINAL_BACKUP_DIR"$DATABASE"_SCHEMA.sql.gz.in_progress; then
-	                logger -s "pg_backup [!!ERROR!!] Failed to backup database schema of $DATABASE" 1>&2
+	                logger -s "pg_backup: [!!ERROR!!] Failed to backup database schema of $DATABASE" 1>&2
 	        else
 	                mv $FINAL_BACKUP_DIR"$DATABASE"_SCHEMA.sql.gz.in_progress $FINAL_BACKUP_DIR"$DATABASE"_SCHEMA.sql.gz
 	        fi
@@ -121,7 +121,7 @@ function perform_backups()
 			echo "Plain backup of $DATABASE"
  
 			if ! pg_dump -Fp -h "$HOSTNAME" -U "$USERNAME" "$DATABASE" | gzip > $FINAL_BACKUP_DIR"$DATABASE".sql.gz.in_progress; then
-				logger -s "pg_backup  [!!ERROR!!] Failed to produce plain backup database $DATABASE" 1>&2
+				logger -s "pg_backup:  [!!ERROR!!] Failed to produce plain backup database $DATABASE" 1>&2
 			else
 				mv $FINAL_BACKUP_DIR"$DATABASE".sql.gz.in_progress $FINAL_BACKUP_DIR"$DATABASE".sql.gz
 			fi
@@ -132,7 +132,7 @@ function perform_backups()
 			echo "Custom backup of $DATABASE"
  
 			if ! pg_dump -Fc -h "$HOSTNAME" -U "$USERNAME" "$DATABASE" -f $FINAL_BACKUP_DIR"$DATABASE".custom.in_progress; then
-				logger -s "pg_backup [!!ERROR!!] Failed to produce custom backup database $DATABASE"
+				logger -s "pg_backup: [!!ERROR!!] Failed to produce custom backup database $DATABASE"
 			else
 				mv $FINAL_BACKUP_DIR"$DATABASE".custom.in_progress $FINAL_BACKUP_DIR"$DATABASE".custom
 			fi
@@ -140,7 +140,7 @@ function perform_backups()
  
 	done
  
-	echo -e "\nAll database backups complete!"
+	logger -s "pg_backup: [SUCCESS] All database backups complete!"
 }
  
 # MONTHLY BACKUPS
