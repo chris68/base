@@ -1,4 +1,4 @@
-set daemon  60           # Poll at 2-minute intervals
+set daemon  60           # Poll at 1-minute intervals
 set logfile syslog facility log_daemon # Set syslog logging 
                                         # (facility LOG_DAEMON)
 
@@ -28,35 +28,26 @@ check system h2397470
 
 #Log files
 
-check file syslog.log with path 
-  if match "Fatal error" then alert
-
 # check file system
 check filesystem rootfs with path /
        if space usage > 80% then alert
        
-check device rootfs with path /dev/vzfs
-  if space usage > 70% then alert
-  if space usage > 80% then alert
-  if space usage > 90% then alert
-  if space usage > 95% then alert
-
 #Important base processes
   
   check process postgresql with pidfile /var/run/postgresql/9.3-main.pid
     group server
-    start program = "service postgresql-9.3 start"
-    stop program = "service postgresql-9.3 stop"
+    start program = "/usr/sbin/service postgresql-9.3 start"
+    stop program = "/usr/sbin/service postgresql-9.3 stop"
 
   check process postfix with pidfile /var/spool/postfix/pid/master.pid
     group server
-    start program = "service postfix start"
-    stop program = "service postfix stop"
+    start program = "/usr/sbin/service postfix start"
+    stop program = "/usr/sbin/service postfix stop"
     depends on postgresql
   
   check process apache with pidfile /var/run/apache2/apache2.pid
     group server
-    start program = "service apache2 start"
-    stop program = " service apache2 stop"
+    start program = "/usr/sbin/service apache2 start"
+    stop program = " /usr/sbin/service apache2 stop"
     depends on postgresql
 
