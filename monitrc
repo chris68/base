@@ -36,8 +36,8 @@ check filesystem rootfs with path /
   
   check process postgresql with pidfile /var/run/postgresql/9.3-main.pid
     group server
-    start program = "/usr/sbin/service postgresql-9.3 start"
-    stop program = "/usr/sbin/service postgresql-9.3 stop"
+    start program = "/usr/sbin/service postgresql start"
+    stop program = "/usr/sbin/service postgresql stop"
 
   check process postfix with pidfile /var/spool/postfix/pid/master.pid
     group server
