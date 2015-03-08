@@ -1,5 +1,7 @@
 ## PHP5 ##
-### XCACHE ###
+### Caching ###
+Best use PHP 5.5 native OPcache.
+
 **Do not use xcache!** It has a bug (http://xcache.lighttpd.net/ticket/348) that will hinder multisite usage. You will only be able to access the first site while the second site will only return the first site.
 ## Postgres users ##
 The password can be the same as the user since we are in a trusted hosting environment
