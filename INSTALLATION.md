@@ -52,3 +52,10 @@ drwxr-xr-x  2 root root 4096 Jan 28 14:27 .
 drwxr-xr-x 10 root root 4096 Jan 28 12:46 ..
 -r--------  1 root root 2618 Sep 25 00:38 mailwitch.com.ini
 ```
+## Cron Jobs ##
+Edit the crontab (``via crontab -e``) and add 
+```
+0 4 * * * cpulimit -l 60 /home/mailwitch/base/pg_backup_rotated.sh
+```
+
+cpulimit restricts the resource consumption to a reasonable degree (install it ``sudo apt-get install cpulimit``)
