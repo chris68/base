@@ -57,5 +57,7 @@ Edit the crontab (``via crontab -e``) and add
 ```
 0 4 * * * cpulimit -i -l 60 /home/mailwitch/base/pg_backup_rotated.sh
 ```
+> The -i option (include children) works only with a rather new version of cpulimit
+> Make sure to test whether your distribution already includes this version
 
 cpulimit restricts the resource consumption to a reasonable degree (install it ``sudo apt-get install cpulimit``)
