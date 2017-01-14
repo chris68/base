@@ -1,12 +1,11 @@
-## PHP5 ##
+## PHP ##
 ### Caching ###
-Best use PHP 5.5 native OPcache.
+Best use PHP native OPcache.
 
 **Do not use xcache!** It has a bug (http://xcache.lighttpd.net/ticket/348) that will hinder multisite usage. You will only be able to access the first site while the second site will only return the first site.
 ## Postgres users ##
 The password can be the same as the user since we are in a trusted hosting environment
 ```
-sudo -i -u postgres psql -c "alter user postgres password 'postgres'"
 sudo -i -u postgres createuser --no-inherit --superuser mailwitch
 sudo -i -u postgres psql -c "alter user mailwitch password 'mailwitch'"
 ```
@@ -32,8 +31,11 @@ Create ssl.crt folder with the certificates
 total 16
 drwxr-xr-x  2 root root 4096 Jan 28 14:27 .
 drwxr-xr-x 10 root root 4096 Jan 28 12:46 ..
--r--------  1 root root 2212 Sep 25 00:38 cert.startssl.org-sub.class1.server.ca.pem
--r--------  1 root root 2618 Sep 25 00:38 mailwitch.com.crt
+-r--------  1 root root 2139 Sep 20 15:45 cert.startssl.org-sub.class1.server.ca.pem
+-r--------  1 root root 2789 Sep 19 19:55 mailwitch.com.crt
+-r--------  1 root root 1777 Sep 23  2015 mailwitch.com.csr
+-r--------  1 root root 2838 Sep 19 19:57 parke-nicht-auf-unseren-wegen.de.crt
+-r--------  1 root root 1817 Sep 23  2015 parke-nicht-auf-unseren-wegen.de.csr
 ```
 Create the ssl.key folder with the keys
 ```
