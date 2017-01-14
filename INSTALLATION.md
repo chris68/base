@@ -63,3 +63,10 @@ Edit the crontab (``via crontab -e``) and add
 > Make sure to test whether your distribution already includes this version
 
 cpulimit restricts the resource consumption to a reasonable degree (install it ``sudo apt-get install cpulimit``)
+
+## Deployment ##
+The necessary files for deployment can be retrieved via:
+```
+wget https://raw.githubusercontent.com/chris68/mwes2/master/deploy.sh deploy.mwes2.sh
+wget https://raw.githubusercontent.com/chris68/pnauw/master/deploy.sh deploy.pnauw.sh
+```
