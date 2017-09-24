@@ -11,6 +11,10 @@ set mail-format           # Set a default mail from-address for
   
 set alert prod_monit@mailwitch.com  with reminder on 100 cycles # Send alert to system admin on any event (with reminder)
 
+set httpd port 2812 and
+        use address localhost
+        allow localhost
+
 set eventqueue
       basedir /var/monit
       slots 5000
