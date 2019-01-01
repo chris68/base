@@ -25,34 +25,29 @@ sudo chmod 755 /var/opt/mailwitch/www
 
 ## Apache ##
 ### SSL ###
-Create ssl.crt folder with the certificates
+Die Zertifikate werden komplett über letsencrypt.org verwaltet und über den certbot angelegt. Sie stehen hier
 ```
-/etc/apache2$ ls -al ssl.crt/
-total 16
-drwxr-xr-x  2 root root 4096 Jan 28 14:27 .
-drwxr-xr-x 10 root root 4096 Jan 28 12:46 ..
--r--------  1 root root 2139 Sep 20 15:45 cert.startssl.org-sub.class1.server.ca.pem
--r--------  1 root root 2789 Sep 19 19:55 mailwitch.com.crt
--r--------  1 root root 1777 Sep 23  2015 mailwitch.com.csr
--r--------  1 root root 2838 Sep 19 19:57 parke-nicht-auf-unseren-wegen.de.crt
--r--------  1 root root 1817 Sep 23  2015 parke-nicht-auf-unseren-wegen.de.csr
-```
-Create the ssl.key folder with the keys
-```
-/etc/apache2$ ls -al ssl.key/
-total 12
-drwxr-xr-x  2 root     root 4096 Jul 21  2013 .
-drwxr-xr-x 10 root     root 4096 Jan 28 12:46 ..
--r--------  1 root root 3243 Jan 28 12:47 myserver.key
 ```
 ### OAUTH ###
-Create oauth.crt folder with the certificates
+Create oauth.key folder with the certificates and copy the files from the relevant/old server
+```
+sudo mkdir /etc/apache2/oauth.key
+chgrp www-data /etc/apache2/oauth.key
+sudo chmod 750 /etc/apache2/oauth.key
+```
+Make sure files are read only and have the correct group so that apache/php can access it
+```
+chgrp www-data /etc/apache2/oauth.key/*.ini
+chmod 330 /etc/apache2/oauth.key/*.ini
+```
+Sieht dann wie folgt aus
 ```
 /etc/apache2$ ls -al oauth.key/
 total 16
 drwxr-xr-x  2 root root 4096 Jan 28 14:27 .
 drwxr-xr-x 10 root root 4096 Jan 28 12:46 ..
 -r--------  1 root root 2618 Sep 25 00:38 mailwitch.com.ini
+-r--------  1 root root 2618 Sep 25 00:38 parke-nicht-auf-unseren-wegen.ini
 ```
 ## Cron Jobs ##
 Edit the crontab (``via crontab -e``) and add 
