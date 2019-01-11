@@ -25,8 +25,9 @@ sudo chmod 755 /var/opt/mailwitch/www
 
 ## Apache ##
 ### SSL ###
-Die Zertifikate werden komplett über letsencrypt.org verwaltet und über den certbot angelegt. Sie stehen hier
+The certificates are managed via letsencrypt.org and are created via certbot. The can be found here:
 ```
+/etc/letsencrypt/live/<server>
 ```
 ### OAUTH ###
 Create oauth.key folder with the certificates and copy the files from the relevant/old server
@@ -40,7 +41,7 @@ Make sure files are read only and have the correct group so that apache/php can 
 chgrp www-data /etc/apache2/oauth.key/*.ini
 chmod 330 /etc/apache2/oauth.key/*.ini
 ```
-Sieht dann wie folgt aus
+Looks as follows:
 ```
 /etc/apache2$ ls -al oauth.key/
 total 16
@@ -62,6 +63,6 @@ cpulimit restricts the resource consumption to a reasonable degree (install it `
 ## Deployment ##
 The necessary files for deployment can be retrieved via:
 ```
-wget https://raw.githubusercontent.com/chris68/mwes2/master/deploy.sh deploy.mwes2.sh
-wget https://raw.githubusercontent.com/chris68/pnauw/master/deploy.sh deploy.pnauw.sh
+wget https://raw.githubusercontent.com/chris68/mwes2/master/deploy-mwes2.sh -O deploy-mwes2.sh
+wget https://raw.githubusercontent.com/chris68/pnauw/master/deploy-pnauw.sh -O deploy-pnauw.sh
 ```
