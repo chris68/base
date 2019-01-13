@@ -63,6 +63,6 @@ cpulimit restricts the resource consumption to a reasonable degree (install it `
 ## Deployment ##
 The necessary files for deployment can be retrieved via:
 ```
-wget https://raw.githubusercontent.com/chris68/mwes2/master/deploy-mwes2.sh -O deploy-mwes2.sh
-wget https://raw.githubusercontent.com/chris68/pnauw/master/deploy-pnauw.sh -O deploy-pnauw.sh
+wget https://raw.githubusercontent.com/chris68/mwes2/master/deploy-mwes2.sh -O deploy-mwes2.sh; chmod +x deploy-mwes2.sh
+wget https://raw.githubusercontent.com/chris68/pnauw/master/deploy-pnauw.sh -O deploy-pnauw.sh; chmod +x deploy-pnauw.sh
 ```
