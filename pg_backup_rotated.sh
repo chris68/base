@@ -124,6 +124,7 @@ function perform_backups()
 				logger -s "pg_backup:  [!!ERROR!!] Failed to produce plain backup database $DATABASE" 1>&2
 			else
 				mv $FINAL_BACKUP_DIR"$DATABASE".sql.gz.in_progress $FINAL_BACKUP_DIR"$DATABASE".sql.gz
+                                rm -f $FINAL_BACKUP_DIR"$DATABASE".sql.gz.nc; mcrypt -u -q $FINAL_BACKUP_DIR"$DATABASE".sql.gz
 			fi
 		fi
  
@@ -178,3 +179,13 @@ fi
 find $BACKUP_DIR -maxdepth 1 -mtime +$DAYS_TO_KEEP -name "*-daily" -exec rm -rf '{}' ';'
  
 perform_backups "-daily"
+
+# Check if gdrive is mounted - if not mount it
+mount | grep "/home/mailwitch/gdrive_mailwitch" >/dev/null || /usr/bin/google-drive-ocamlfuse -label mailwitch "/home/mailwitch/gdrive_mailwitch"
+
+# Rsync the encrypted files to the remote directory; the syntax is strange - you need first to exclude all files to then include the necessary files 
+if ! rsync -av --include="*.nc" --exclude="/**/*" --delete $BACKUP_DIR/. $REMOTE_DIR; then
+    logger -s "pg_backup: [!!ERROR!!] Sync to remote failed"
+else
+    logger -s "pg_backup: [SUCCESS] Sync to remote successfull!"
+fi

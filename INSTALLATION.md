@@ -50,15 +50,66 @@ drwxr-xr-x 10 root root 4096 Jan 28 12:46 ..
 -r--------  1 root root 2618 Sep 25 00:38 mailwitch.com.ini
 -r--------  1 root root 2618 Sep 25 00:38 parke-nicht-auf-unseren-wegen.ini
 ```
+
+## Backups ##
+### MCRYPT ###
+Install mcrypt via
+```
+sudo apt-get install mcrypt
+```
+Create the rcfile and fix the access rights
+```
+touch /home/mailwitch/.mcryptrc; chmod 600 /home/mailwitch/.mcryptrc; nano /home/mailwitch/.mcryptrc
+```
+Copy the following into the config file; replace the <secret key> with the actual key
+```
+algorithm twofish
+key <secret key>
+```
+
+Test it via mcrypt <file> and mdecrypt <file.nc>
+### RSYNC ###
+Install mcrypt via
+```
+sudo apt-get install rsync
+### Install gdrive link and link to it ###
+Install google-drive-ocamlfuse
+```
+sudo add-apt-repository ppa:alessandro-strada/ppa
+sudo apt install google-drive-ocamlfuse
+```
+Then get the credentials. The -label gives the option to store more than one profile. If you do not enter a label the default profile will be used.
+You must use the profile mailwitch for the scripts to work!
+```
+google-drive-ocamlfuse -label <google-account/profile>
+```
+For a headless server you need to do this on a server with a browser and then copy the credentials which are stored in ~/.gdfuse/<profile>/state.
+
+Create an empty folder for mounting.
+```
+mkdir ~/gdrive_<profile>
+```
+Mounting and unmounting goes as follows.
+```
+google-drive-ocamlfuse -label <profile> ~/gdrive_<profile>
+fusermount -u /home/mailwitch/gdrive_<profile>
+```
+Finally symlink to the gdrive subfolder where the backups should end up
+```
+ln -s /home/mailwitch/gdrive-<profile>/<backupfolder-in-gdrive> backups.remote
+```
+### Test ###
+Execute /home/mailwitch/base/pg_backup_rotated.sh once. Check whether the files go encrypted to gmail
 ## Cron Jobs ##
+Install cpu-limit
+```
+sudo apt install cpulimit
+```
 Edit the crontab (``via crontab -e``) and add 
 ```
-0 4 * * * cpulimit -i -l 60 /home/mailwitch/base/pg_backup_rotated.sh
+0 4 * * * cpulimit -l 60 /home/mailwitch/base/pg_backup_rotated.sh
 ```
-> The -i option (include children) works only with a rather new version of cpulimit
-> Make sure to test whether your distribution already includes this version
-
-cpulimit restricts the resource consumption to a reasonable degree (install it ``sudo apt-get install cpulimit``)
+cpulimit restricts the resource consumption to a reasonable degree
 
 ## Deployment ##
 The necessary files for deployment can be retrieved via:
