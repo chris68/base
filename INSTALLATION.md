@@ -25,7 +25,7 @@ sudo chmod 755 /var/opt/mailwitch/www
 
 ## Apache ##
 ### SSL ###
-The certificates are managed via letsencrypt.org and are created via certbot. The can be found here:
+The certificates are managed via letsencrypt.org and are created via certbot. They can be found here:
 ```
 /etc/letsencrypt/live/<server>
 ```
