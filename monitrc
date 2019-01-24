@@ -37,6 +37,7 @@ check system $HOST
 
 # Check if the backup script raised on error
 check file syslog with path /var/log/syslog
+        ignore content = "monit" # otherwise the logs from monit are reevaluated again and again!
         if content = "pg_backup.*ERROR" then alert
 
 # check file system
