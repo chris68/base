@@ -1,11 +1,14 @@
-set daemon  60           # Poll at 1-minute intervals
+### Setting for mailwitch; append these to /etc/monit/monitrc
+
+
+set daemon  60 WITH START DELAY 15           # Poll at 1-minute intervals but only start after 15 seconds (before monit status will not answer!)
 set logfile syslog facility log_daemon # Set syslog logging 
                                         # (facility LOG_DAEMON)
 
 set mailserver localhost
 set mail-format           # Set a default mail from-address for
   { 
-    subject: Monit system notification
+    subject: Monit system notification ($SERVICE $EVENT at $DATE)
     from: postmaster@mailwitch.com
   }  # all alert messages emitted by monit
   
@@ -21,7 +24,7 @@ set eventqueue
       
 #System checks
 
-check system h2397470
+check system $HOST
 	if memory usage > 80% for 2 cycles then alert
 	if cpu usage (user) > 70% for 2 cycles then alert
         if cpu usage (system) > 30% then alert
@@ -32,13 +35,20 @@ check system h2397470
 
 #Log files
 
+# Check if the backup script raised on error
+check file syslog with path /var/log/syslog
+        if content = "pg_backup.*ERROR" then alert
+
 # check file system
 check filesystem rootfs with path /
        if space usage > 80% then alert
        
+check filesystem backup.remote with path /home/mailwitch/gdrive_mailwitch
+
 #Important base processes
+#Use this only until the systems have a proper systemd config for restart themselves (see https://mmonit.com/wiki/Monit/Systemd for a sample)
   
-  check process postgresql with pidfile /var/run/postgresql/9.3-main.pid
+  check process postgresql with pidfile /var/run/postgresql/10-main.pid
     group server
     start program = "/usr/sbin/service postgresql start"
     stop program = "/usr/sbin/service postgresql stop"
@@ -55,3 +65,8 @@ check filesystem rootfs with path /
     stop program = " /usr/sbin/service apache2 stop"
     depends on postgresql
 
+  check process with pidfile /run/php/php7.2-fpm.pid
+    group server
+    start program = "/usr/sbin/service php7.2-fpm start"
+    stop program = "/usr/sbin/service php7.2-fpm stop"
+    depends on apache

@@ -100,6 +100,8 @@ ln -s /home/mailwitch/gdrive-<profile>/<backupfolder-in-gdrive> backups.remote
 ```
 ### Test ###
 Execute /home/mailwitch/base/pg_backup_rotated.sh once. Check whether the files go encrypted to gmail
+## Monit ##
+Monitoring is done with monit. Use the two monit files to set it up.
 ## Cron Jobs ##
 Install cpu-limit
 ```
