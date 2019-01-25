@@ -43,8 +43,9 @@ check file syslog with path /var/log/syslog
 # check file system
 check filesystem rootfs with path /
        if space usage > 80% then alert
-       
-check filesystem backup.remote with path /home/mailwitch/gdrive_mailwitch
+ 
+# Checking the fuse file system does not work - too many interruptions 
+#check filesystem backup.remote with path /home/mailwitch/gdrive_mailwitch
 
 #Important base processes
 #Use this only until the systems have a proper systemd config for restart themselves (see https://mmonit.com/wiki/Monit/Systemd for a sample)
