@@ -187,7 +187,7 @@ mount | grep "/home/mailwitch/gdrive_mailwitch" >/dev/null || /usr/bin/google-dr
 rm -R -f /home/mailwitch/gdrive_mailwitch/.Trash/*
 
 # Rsync the encrypted files to the remote directory; the syntax is strange - you need first to exclude all files to then include the necessary files 
-if ! rsync -av --include="*.nc" --update --delete-delay --exclude="/**/*" --delete $BACKUP_DIR/. $REMOTE_DIR; then
+if ! rsync -avv --include="*.nc" --update --delete-delay --exclude="/**/*" --delete $BACKUP_DIR/. $REMOTE_DIR; then
     logger -s "pg_backup: [!!ERROR!!] Sync to remote failed"
 else
     logger -s "pg_backup: [SUCCESS] Sync to remote successfull!"
