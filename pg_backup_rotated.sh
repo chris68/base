@@ -183,8 +183,8 @@ perform_backups "-daily"
 # Check if gdrive is mounted - if not mount it
 mount | grep "/home/mailwitch/gdrive_mailwitch" >/dev/null || /usr/bin/google-drive-ocamlfuse -label mailwitch "/home/mailwitch/gdrive_mailwitch"
 
-# Empty the trash can
-rm -R -f /home/mailwitch/gdrive_mailwitch/.Trash/*
+# Empty the trash can (all *.gz.nc files older than 30 days)
+find /home/mailwitch/gdrive_mailwitch/.Trash -type f -name '*.gz.nc' -mtime +30 -exec rm {} \;
 
 # Rsync the encrypted files to the remote directory; the syntax is strange - you need first to exclude all files to then include the necessary files 
 if ! rsync -avv --include="*.nc" --update --delete-delay --exclude="/**/*" --delete $BACKUP_DIR/. $REMOTE_DIR; then
