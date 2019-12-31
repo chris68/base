@@ -72,3 +72,10 @@ check filesystem rootfs with path /
     start program = "/usr/sbin/service php7.2-fpm start"
     stop program = "/usr/sbin/service php7.2-fpm stop"
     depends on apache
+
+  check process dovecot with pidfile /var/run/dovecot/master.pid
+    group server
+    start program = "/usr/sbin/service dovecot start"
+    stop program = "/usr/sbin/service dovecot stop"
+    depends on postgresql
+  
