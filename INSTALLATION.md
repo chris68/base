@@ -22,6 +22,22 @@ sudo mkdir /var/opt/mailwitch/www
 sudo chown mailwitch:mailwitch /var/opt/mailwitch/www
 sudo chmod 755 /var/opt/mailwitch/www
 ```
+## Certbot / Letsencrypt ##
+### SSL ###
+The certificates are managed via letsencrypt.org and are created via certbot. They can be found here:
+```
+/etc/letsencrypt/live/<server>
+```
+
+Add the restart of the services to the end of ``/etc/letsencrypt/cli.ini``:
+```
+deploy-hook = "service postfix reload ; service dovecot restart ; service apache2 reload"
+```
+
+Adapt ``/etc/letsencrypt/options-ssl-apache.conf`` and forbid the old versions ``-TLSv1 -TLSv1.1`` of TLS:
+```
+SSLProtocol             all -SSLv2 -SSLv3 -TLSv1 -TLSv1.1
+```
 
 ## Apache ##
 ### SSL ###
@@ -109,7 +125,8 @@ sudo apt install cpulimit
 ```
 Edit the crontab (``via crontab -e``) and add 
 ```
-0 4 * * * /home/mailwitch/base/pg_backup_rotated.sh
+0 4 * * * { /home/mailwitch/base/pg_backup_rotated.sh ; }
+0 2 * * 1 { /usr/bin/sudo /usr/bin/certbot renew ; }
 ```
 
 ## Deployment ##
