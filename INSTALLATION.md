@@ -88,6 +88,7 @@ Test it via mcrypt <file> and mdecrypt <file.nc>
 Install mcrypt via
 ```
 sudo apt-get install rsync
+```
 ### Install gdrive link and link to it ###
 Install google-drive-ocamlfuse
 ```
@@ -99,7 +100,12 @@ You must use the profile mailwitch for the scripts to work!
 ```
 google-drive-ocamlfuse -label <google-account/profile>
 ```
-For a headless server you need to do this on a server with a browser and then copy the credentials which are stored in ~/.gdfuse/<profile>/state.
+For a headless server you need to do this on a server with a browser and then copy the credentials which are stored in ``~/.gdfuse/<profile>/state``.
+
+Edit ``~/.gdfuse/<profile>/config`` and change 
+```
+delete_forever_in_trash_folder=true
+```
 
 Create an empty folder for mounting.
 ```
