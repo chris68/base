@@ -125,10 +125,6 @@ Execute /home/mailwitch/base/pg_backup_rotated.sh once. Check whether the files 
 ## Monit ##
 Monitoring is done with monit. Use the two monit files to set it up.
 ## Cron Jobs ##
-Install cpu-limit
-```
-sudo apt install cpulimit
-```
 Edit the crontab (``via crontab -e``) and add 
 ```
 0 4 * * * { /home/mailwitch/base/pg_backup_rotated.sh ; }
