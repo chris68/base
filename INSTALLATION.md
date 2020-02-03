@@ -31,7 +31,7 @@ The certificates are managed via letsencrypt.org and are created via certbot. Th
 
 Add the restart of the services to the end of ``/etc/letsencrypt/cli.ini``:
 ```
-deploy-hook = "service postfix reload ; service dovecot reload ; service apache2 reload"
+deploy-hook = service postfix reload ; service dovecot reload ; service apache2 reload
 ```
 
 Adapt ``/etc/letsencrypt/options-ssl-apache.conf`` and forbid the old versions ``-TLSv1 -TLSv1.1`` of TLS:
